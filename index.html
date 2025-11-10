@@ -1,46 +1,75 @@
-<!doctype html>
-<html lang="fa">
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>پروفایل عضو</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>پروفایل عضو انجمن علوم تربیتی</title>
   <style>
-    body{font-family:Tahoma, sans-serif; direction:rtl; padding:20px; max-width:800px; margin:auto}
-    .card{border:1px solid #ddd;padding:16px;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+    body {
+      font-family: "Vazirmatn", sans-serif;
+      background: #f8f9fa;
+      text-align: center;
+      margin: 0;
+      padding: 30px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 30px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    h1 { color: #2c3e50; }
+    h3 { color: #34495e; }
+    ul {
+      list-style: none;
+      padding: 0;
+      text-align: right;
+    }
+    li {
+      background: #ecf0f1;
+      margin: 5px 0;
+      padding: 8px;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
-  <h1>پروفایل عضو انجمن</h1>
-  <div id="content" class="card">درحال بارگذاری...</div>
+  <div class="card" id="profile">
+    <h2>در حال بارگذاری اطلاعات...</h2>
+  </div>
 
-<script>
-const params = new URLSearchParams(window.location.search);
-const id = params.get('id');
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
 
-fetch('members.json')
-  .then(response => response.json())
-  .then(data => {
-    const member = data.find(m => m.code === id);
-    const container = document.getElementById('profile');
+    fetch('members.json')
+      .then(response => response.json())
+      .then(data => {
+        const member = data.find(m => m.code === id);
+        const container = document.getElementById('profile');
 
-    if (!member) {
-      container.innerHTML = "<h2>عضوی با این کد یافت نشد.</h2>";
-      return;
-    }
+        if (!member) {
+          container.innerHTML = "<h2>❌ عضوی با این کد یافت نشد.</h2>";
+          return;
+        }
 
-    container.innerHTML = `
-      <h1>${member.name}</h1>
-      <h3>${member.dept}</h3>
-      <p>${member.bio}</p>
-      <h4>فعالیت‌ها:</h4>
-      <ul>${member.activities.map(a => `<li>${a}</li>`).join('')}</ul>
-    `;
-  })
-  .catch(err => {
-    document.getElementById('profile').innerHTML = "<p>خطا در بارگذاری اطلاعات.</p>";
-    console.error(err);
-  });
-</script>
+        container.innerHTML = `
+          <h1>${member.name}</h1>
+          <h3>${member.dept}</h3>
+          <p>${member.bio}</p>
+          <h4>فعالیت‌ها:</h4>
+          <ul>
+            ${member.activities.map(a => `<li>${a}</li>`).join('')}
+          </ul>
+        `;
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById('profile').innerHTML = "<p>⚠️ خطا در خواندن اطلاعات اعضا.</p>";
+      });
+  </script>
 </body>
 </html>
-Create members.json
+fix index page
