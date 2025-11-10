@@ -39,22 +39,18 @@
   <div class="card" id="profile">
     <h2>در حال بارگذاری اطلاعات...</h2>
   </div>
-
   <script>
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
-
     fetch('members.json')
       .then(response => response.json())
       .then(data => {
         const member = data.find(m => m.code === id);
         const container = document.getElementById('profile');
-
         if (!member) {
           container.innerHTML = "<h2>❌ عضوی با این کد یافت نشد.</h2>";
           return;
         }
-
         container.innerHTML = `
           <h1>${member.name}</h1>
           <h3>${member.dept}</h3>
